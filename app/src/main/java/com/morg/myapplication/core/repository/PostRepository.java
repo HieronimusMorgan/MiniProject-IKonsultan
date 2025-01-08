@@ -26,17 +26,14 @@ public class PostRepository {
         postService.getPostList().enqueue(new Callback<List<PostModel>>() {
             @Override
             public void onResponse(Call<List<PostModel>> call, Response<List<PostModel>> response) {
-                    Log.d("TAG", "onResponse: "+new Gson().toJson(response.body()));
-                if (response.isSuccessful() && response.body() != null) {
-                    data.postValue(response.body());
-                } else {
-                    data.postValue(null);
+                if (response.isSuccessful()) {
+                    data.setValue(response.body());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<PostModel>> call, Throwable throwable) {
-                data.postValue(null);
+            public void onFailure(Call<List<PostModel>> call, Throwable t) {
+                data.setValue(null);
             }
         });
     }

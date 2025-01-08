@@ -15,9 +15,12 @@ import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     private List<PostModel> postModels;
+    private final OnItemClickListener listener;
 
-    public PostAdapter(List<PostModel> postModels) {
+
+    public PostAdapter(List<PostModel> postModels, OnItemClickListener listener) {
         this.postModels = postModels;
+        this.listener = listener;
     }
 
 
@@ -31,8 +34,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull PostAdapter.ViewHolder holder, int position) {
         PostModel p = postModels.get(position);
-        holder.binding.tvId.setText(p.getId());
+        holder.binding.tvId.setText(String.valueOf(p.getId()));
         holder.binding.tvTitle.setText(p.getTitle());
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(p));
     }
 
     @Override
@@ -40,9 +44,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         return postModels.size();
     }
 
-    public void  updateData(List<PostModel> postModels) {
-        postModels.clear();
-        postModels.addAll(postModels);
+    public void updateData(List<PostModel> posts) {
+        this.postModels = posts;
         notifyDataSetChanged();
     }
 
@@ -53,5 +56,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             super(itemView);
             binding = ItemPostBinding.bind(itemView);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(PostModel post);
     }
 }

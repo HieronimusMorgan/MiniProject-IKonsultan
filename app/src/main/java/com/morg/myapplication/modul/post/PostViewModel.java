@@ -13,15 +13,15 @@ public class PostViewModel extends ViewModel {
     private final MutableLiveData<List<PostModel>> data = new MutableLiveData<>();
     private final PostRepository postRepository;
 
-    public PostViewModel(){
+    public PostViewModel() {
         this.postRepository = new PostRepository();
     }
 
-    public void getData(){
+    public void getData() {
         postRepository.getData(data);
     }
 
-    public LiveData<List<PostModel>> getPostList (){
+    public LiveData<List<PostModel>> getPostList() {
         return data;
     }
 }
